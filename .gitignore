@@ -1,0 +1,7 @@
+.DS_Store
+.classpath
+.project
+build/
+.settings/
+target/
+AwsCredentials.properties
