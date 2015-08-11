@@ -17,5 +17,35 @@
 			title="<c:out value="${grafiti.altText}"/>" 
 			>
 	</a>
+	
+	<br />
+	<br />
+	<hr />
+	<br />
+	<br />
+	<h2>Replace this image</h2>
+	 	<c:url value="/kingofthehill/upload/upload" var="uploadURL" />
+		<form method="POST" enctype="multipart/form-data"
+			action="<c:out value="${uploadURL}"/>">
+		
+		<br />
+		<label for="title">Title: </label>
+		<input type="text" name="title" id="title" size="100" placeholder="Title of page"/><br />
+		 
+		<label for="altText">Alt Text: </label>
+		<input type="text" name="altText" id="altText" size="100" placeholder="Alt Text"/><br /> 
+		
+		<label for="link">Link: </label>
+		<input type="text" name="link" id="link" size="100" value="http://" placeholder="Link"/><br />
+		 
+		<label for="email" >Email (optional): </label>
+		<input type="text" name="email" id="email" size="100" placeholder="Email"/><br /> <br />
+		 
+		<label for="file">Upload image: </label>
+		<input type="file" name="file" id="file"> <br /> <br />
+		 
+		<input type="submit"
+			value="Upload">
+	</form>
 </body>
 </html>

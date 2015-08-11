@@ -32,7 +32,6 @@ public class FileUploadController {
             @RequestParam("altText") String altText, @RequestParam("link") String link,
             @RequestParam("email") String email, @RequestParam("file") MultipartFile file) {
         ModelAndView modelAndView = new ModelAndView();
-        String fileUploadStatus = "";
         if (file.isEmpty()) {
             modelAndView.setViewName("error");
             modelAndView.addObject("errorMessage", "FILE IS EMPTY");
@@ -50,8 +49,7 @@ public class FileUploadController {
             return modelAndView;
         }
 
-        modelAndView.setViewName("uploadThanks");
-        modelAndView.addObject("uploadStatus", fileUploadStatus);
+        modelAndView.setViewName("redirect:/kingofthehill/");
         return modelAndView;
     }
 }
