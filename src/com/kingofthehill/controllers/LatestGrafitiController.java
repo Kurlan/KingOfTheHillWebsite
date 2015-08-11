@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kingofthehill.model.Grafiti;
@@ -35,4 +36,11 @@ public class LatestGrafitiController {
         modelAndView.setViewName("latestGrafiti");
         return modelAndView;
     }
+
+    @RequestMapping(value = "ajax/grafiti/latest", method = RequestMethod.GET)
+    @ResponseBody
+    public Grafiti getLatestGrafitiAJAX() {
+        return getLatestGrafitiUtils.getLatestGrafiti();
+    }
+
 }
