@@ -40,7 +40,7 @@ public class FileUploadController {
 
         try {
             String keyname = fileUploadUtil.uploadFile(file);
-            grafitiUtils.createGrafiti(keyname, altText, link, title, email);
+            grafitiUtils.createGrafiti(keyname, altText, link, title, email, "FREE");
         } catch (UnableToUploadToS3Exception e) {
             modelAndView.setViewName("error");
             modelAndView.addObject("errorMessage", e.getMessage());

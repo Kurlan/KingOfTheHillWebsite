@@ -42,4 +42,6 @@ public class Grafiti implements Serializable {
     private Date created;
     
     private Date modified;
+    
+    private String queue;
 }

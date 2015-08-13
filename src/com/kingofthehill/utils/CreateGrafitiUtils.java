@@ -20,12 +20,12 @@ public class CreateGrafitiUtils {
         this.grafitiRepository = grafitiRepository;
     }
 
-    public String createGrafiti(String s3Key, String altText, String urlLink, String title, String email) {
+    public String createGrafiti(String s3Key, String altText, String urlLink, String title, String email, String queue) {
         String grafitiId = UUID.randomUUID().toString();
         Date createdTime = null;
         Date modifiedTime = null;
         Grafiti grafiti = new Grafiti(grafitiId, s3Key, altText, urlLink, title, email, CREATED, createdTime,
-                modifiedTime);
+                modifiedTime, queue);
         grafitiRepository.createGrafiti(grafiti);
         return grafitiId;
     }
