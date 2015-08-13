@@ -20,6 +20,8 @@
     </a>
     <br />
     <br />
+    <h4>Free queue size: <c:out value="${freeQueueSize}" /></h4>
+    <h4>Paid queue size: <c:out value="${paidQueueSize}" /></h4>
     <hr />
     <br />
     <br />

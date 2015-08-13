@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kingofthehill.model.Grafiti;
 import com.kingofthehill.utils.GetLatestGrafitiUtils;
+import com.kingofthehill.utils.QueueSizeUtils;
 
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -19,10 +20,12 @@ public class LatestGrafitiController {
 
     private static final String CDN_URL = "dk01572ibg6u2.cloudfront.net";
     private final GetLatestGrafitiUtils getLatestGrafitiUtils;
+    private final QueueSizeUtils queueSizeUtils;
 
     @Autowired
-    public LatestGrafitiController(GetLatestGrafitiUtils getLatestGrafitiUtils) {
+    public LatestGrafitiController(GetLatestGrafitiUtils getLatestGrafitiUtils, QueueSizeUtils queueSizeUtils) {
         this.getLatestGrafitiUtils = getLatestGrafitiUtils;
+        this.queueSizeUtils = queueSizeUtils;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -33,6 +36,8 @@ public class LatestGrafitiController {
         modelAndView.addObject("grafiti", grafiti);
         modelAndView.addObject("cdnURL", CDN_URL);
         log.info("Latest grafitiId: " + grafiti.getGrafitiId());
+        modelAndView.addObject("freeQueueSize", queueSizeUtils.getQueueSize("FREE"));
+        modelAndView.addObject("paidQueueSize", queueSizeUtils.getQueueSize("PAID"));
         modelAndView.setViewName("latestGrafiti");
         return modelAndView;
     }
