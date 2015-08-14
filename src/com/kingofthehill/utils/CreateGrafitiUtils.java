@@ -24,8 +24,9 @@ public class CreateGrafitiUtils {
         String grafitiId = UUID.randomUUID().toString();
         Date createdTime = null;
         Date modifiedTime = null;
+        Date completedTime = null;
         Grafiti grafiti = new Grafiti(grafitiId, s3Key, altText, urlLink, title, email, CREATED, createdTime,
-                modifiedTime, queue);
+                modifiedTime, completedTime, queue);
         grafitiRepository.createGrafiti(grafiti);
         return grafitiId;
     }
