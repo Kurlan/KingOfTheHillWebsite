@@ -19,6 +19,7 @@
         <property name="suffix">
             <value>.jsp</value>
         </property>
+        
     </bean>
     
     <bean id="multipartResolver"
@@ -28,6 +29,6 @@
         <property name="maxUploadSize" value="200000" />
  
     </bean>
-    
+
 
 </beans>

@@ -17,6 +17,6 @@ public class GetLatestGrafitiUtils {
     }
 
     public Grafiti getLatestGrafiti() {
-        return getLatestGrafitiRepository.getLatestGrafiti();
+        return getLatestGrafitiRepository.getLatestGrafiti("CURRENT");
     }
 }

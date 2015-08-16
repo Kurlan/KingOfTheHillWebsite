@@ -4,7 +4,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +19,13 @@ public class GetLatestGrafitiRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public Grafiti getLatestGrafiti() {
+    public Grafiti getLatestGrafiti(String status) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         Grafiti grafiti = null;
         try {
             transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Grafiti.class).addOrder(Order.desc("created"))
+            Criteria criteria = session.createCriteria(Grafiti.class).add(Restrictions.eq("status", status))
                     .setMaxResults(1);
             grafiti = (Grafiti) criteria.uniqueResult();
             session.getTransaction().commit();

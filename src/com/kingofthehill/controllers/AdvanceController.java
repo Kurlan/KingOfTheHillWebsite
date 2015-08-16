@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kingofthehill.utils.AdvanceQueueUtils;
 
+import lombok.extern.apachecommons.CommonsLog;
+
 @Controller
 @RequestMapping("/advance")
+@CommonsLog
 public class AdvanceController {
     
     private final AdvanceQueueUtils advanceQueueUtils;
@@ -24,6 +27,7 @@ public class AdvanceController {
     public String advance() {
         
         advanceQueueUtils.advanceQueues();
+        log.info("Advancing queues");
         return "OK";
     }
 }

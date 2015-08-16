@@ -15,7 +15,7 @@ public class QueueSizeUtils {
         this.queueSizeRepository = queueSizeRepository;
     }
     
-    public long getQueueSize(String queueName) {
-        return queueSizeRepository.getQueueSize(queueName);
+    public long getQueueSizeWithStatus(String queueName, String status) {
+        return queueSizeRepository.getQueueSizeWithStatus(queueName, status);
     }
 }

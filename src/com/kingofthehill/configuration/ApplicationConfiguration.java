@@ -27,6 +27,7 @@ public class ApplicationConfiguration {
         configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         configuration.setProperty("show_sql", "true");
+        configuration.setProperty("jadira.usertype.autoRegisterUserTypes", "true");
         return configuration;
     }
 }

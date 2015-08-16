@@ -25,7 +25,7 @@ public class CreateGrafitiRepository {
         try {
             transaction = session.beginTransaction();
             session.save(grafiti);
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

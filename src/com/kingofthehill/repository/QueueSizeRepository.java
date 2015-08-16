@@ -28,4 +28,15 @@ public class QueueSizeRepository {
             session.close();
         }
     }
+
+    public long getQueueSizeWithStatus(String queueName, String status) {
+        Session session = sessionFactory.openSession();
+
+        try {
+            return (long) session.createCriteria(Grafiti.class).add(Restrictions.eq("queue", queueName))
+                    .add(Restrictions.eq("status", status)).setProjection(Projections.rowCount()).uniqueResult();
+        } finally {
+            session.close();
+        }
+    }
 }

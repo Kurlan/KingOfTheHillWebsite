@@ -1,36 +1,38 @@
 package com.kingofthehill.repository;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kingofthehill.model.Grafiti;
 
+import lombok.extern.apachecommons.CommonsLog;
+
 @Service
-public class AdvanceQueueRepository {
+@CommonsLog
+public class ResetQueueRepository {
+
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public AdvanceQueueRepository(SessionFactory sessionFactory) {
+    public ResetQueueRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public void setGrafitiToStatus(String grafitiId, String toStatus) {
+    public void setAllCompletedToCreated() {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
-        Grafiti grafiti = null;
+        log.info("Bulk updating COMPLETED to CREATED");
         try {
             transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Grafiti.class).add(Restrictions.eq("grafitiId", grafitiId))
-                    .setMaxResults(1);
-            grafiti = (Grafiti) criteria.uniqueResult();
-            grafiti.setStatus(toStatus);
-            session.save(grafiti);
+            String hqlUpdate = "update " + Grafiti.class.getName()
+                    + " g set g.status = :toStatus where g.status = :fromStatus";
+            int updatedEntities = session.createQuery(hqlUpdate).setString("fromStatus", "COMPLETED")
+                    .setString("toStatus", "CREATED").executeUpdate();
             transaction.commit();
+            log.info("Updated rows: " + updatedEntities);
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {

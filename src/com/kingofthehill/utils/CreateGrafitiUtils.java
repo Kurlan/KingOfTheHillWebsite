@@ -1,8 +1,8 @@
 package com.kingofthehill.utils;
 
-import java.util.Date;
 import java.util.UUID;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +22,9 @@ public class CreateGrafitiUtils {
 
     public String createGrafiti(String s3Key, String altText, String urlLink, String title, String email, String queue) {
         String grafitiId = UUID.randomUUID().toString();
-        Date createdTime = null;
-        Date modifiedTime = null;
-        Date completedTime = null;
+        DateTime createdTime = null;
+        DateTime modifiedTime = null;
+        DateTime completedTime = null;
         Grafiti grafiti = new Grafiti(grafitiId, s3Key, altText, urlLink, title, email, CREATED, createdTime,
                 modifiedTime, completedTime, queue);
         grafitiRepository.createGrafiti(grafiti);
