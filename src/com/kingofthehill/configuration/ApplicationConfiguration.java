@@ -28,6 +28,12 @@ public class ApplicationConfiguration {
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         configuration.setProperty("show_sql", "true");
         configuration.setProperty("jadira.usertype.autoRegisterUserTypes", "true");
+        
+        configuration.setProperty("hibernate.c3p0.min_size", "1");
+        configuration.setProperty("hibernate.c3p0.max_size", "2");
+        configuration.setProperty("hibernate.c3p0.timeout", "300");
+        configuration.setProperty("hibernate.c3p0.idle_test_period", "3000");
+        
         return configuration;
     }
 }
