@@ -19,6 +19,7 @@ import lombok.extern.apachecommons.CommonsLog;
 @CommonsLog
 public class SetCurrentImageRepository {
     private final SessionFactory sessionFactory;
+    private static final int NUMBER_OF_SECONDS_TO_EXPIRE = 5;
 
     @Autowired
     public SetCurrentImageRepository(SessionFactory sessionFactory) {
@@ -29,7 +30,7 @@ public class SetCurrentImageRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
 
-        DateTime nowUTC = new DateTime(DateTimeZone.UTC).plusSeconds(15);
+        DateTime nowUTC = new DateTime(DateTimeZone.UTC).plusSeconds(NUMBER_OF_SECONDS_TO_EXPIRE);
         log.info(nowUTC.toString());
         Grafiti grafiti = null;
         try {
