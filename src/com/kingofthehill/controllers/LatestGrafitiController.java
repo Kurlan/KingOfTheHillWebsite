@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kingofthehill.model.Grafiti;
+import com.kingofthehill.model.QueueLengths;
 import com.kingofthehill.utils.GetLatestGrafitiUtils;
 import com.kingofthehill.utils.QueueSizeUtils;
 
@@ -49,6 +50,13 @@ public class LatestGrafitiController {
     @ResponseBody
     public Grafiti getLatestGrafitiAJAX() {
         return getLatestGrafitiUtils.getLatestGrafiti();
+    }
+
+    @RequestMapping(value = "ajax/queueLengths", method = RequestMethod.GET)
+    @ResponseBody
+    public QueueLengths getQueueLengthsAJAX() {
+        return new QueueLengths(queueSizeUtils.getQueueSizeWithStatus("FREE", "CREATED"),
+                queueSizeUtils.getQueueSizeWithStatus("PAID", "CREATED"));
     }
 
 }

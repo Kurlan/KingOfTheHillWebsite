@@ -20,8 +20,8 @@
     </a>
     <br />
     <br />
-    <h4>Free queue size: <c:out value="${freeQueueSize}" /></h4>
-    <h4>Paid queue size: <c:out value="${paidQueueSize}" /></h4>
+    <h4>Free queue size: <span id="freeQueueSize"><c:out value="${freeQueueSize}" /></span></h4>
+    <h4>Paid queue size: <span id="paidQueueSize"><c:out value="${paidQueueSize}" /></span></h4>
     <hr />
     <br />
     <br />
@@ -52,6 +52,7 @@
     
     
     <c:url value="/kingofthehill/ajax/grafiti/latest" var="latestAjaxEndpointURL" />
+    <c:url value="/kingofthehill/ajax/queueLengths" var="queueLengthAjaxEndpointURL" />
     <script>
         function readFromImageStream() {
 
@@ -65,6 +66,16 @@
 
         }
         
+        function updateQueueLengths() {
+            $.ajax({
+                url: '<c:out value="${queueLengthAjaxEndpointURL}"/>',
+                dataType: "json",
+                success: function(response) {
+                    processQueueLengths(response);
+                  },
+            });
+        }
+        
         function processGrafiti(grafiti) {
             var cdnUrl = 'http://<c:out value="${cdnURL}" />/' + grafiti.s3Key;
              $("#mainImage").attr("src", cdnUrl);
@@ -74,7 +85,15 @@
              $(document).prop('title', grafiti.title);
         }
         
-        setInterval(function () {readFromImageStream();}, 3000);
+        function processQueueLengths(queueLengths) {
+        	$("#freeQueueSize").html(queueLengths.freeQueueLength);
+        	$("#paidQueueSize").html(queueLengths.paidQueueLength);
+        }
+        
+        setInterval(function () {
+        	readFromImageStream();
+        	updateQueueLengths();
+        }, 3000);
         
     </script>
 </body>
