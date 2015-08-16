@@ -3,19 +3,18 @@ package com.kingofthehill.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kingofthehill.repository.QueueSizeRepository;
+import com.google.common.cache.LoadingCache;
 
 @Service
 public class QueueSizeUtils {
+    public final LoadingCache<String, Long> queueSizeCache;
 
-    public final QueueSizeRepository queueSizeRepository;
-    
     @Autowired
-    public QueueSizeUtils(QueueSizeRepository queueSizeRepository) {
-        this.queueSizeRepository = queueSizeRepository;
+    public QueueSizeUtils(LoadingCache<String, Long> queueSizeCache) {
+        this.queueSizeCache = queueSizeCache;
     }
-    
-    public long getQueueSizeWithStatus(String queueName, String status) {
-        return queueSizeRepository.getQueueSizeWithStatus(queueName, status);
+
+    public long getQueueLength(String queueName) {
+        return queueSizeCache.getUnchecked(queueName);
     }
 }

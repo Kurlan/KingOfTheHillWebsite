@@ -93,7 +93,7 @@
         setInterval(function () {
         	readFromImageStream();
         	updateQueueLengths();
-        }, 3000);
+        }, 1000);
         
     </script>
 </body>

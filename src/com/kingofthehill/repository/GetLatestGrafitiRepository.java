@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.kingofthehill.model.Grafiti;
 
+import lombok.extern.apachecommons.CommonsLog;
+
 @Service
+@CommonsLog
 public class GetLatestGrafitiRepository {
     private final SessionFactory sessionFactory;
 
@@ -23,6 +26,8 @@ public class GetLatestGrafitiRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         Grafiti grafiti = null;
+        
+        log.info("GETTING from database");
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Grafiti.class)

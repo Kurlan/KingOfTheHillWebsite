@@ -10,26 +10,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.kingofthehill.cache.LatestGrafitiCacheLoader;
+import com.kingofthehill.cache.QueueLengthCacheLoader;
 import com.kingofthehill.model.Grafiti;
-import com.kingofthehill.model.GrafitiStatus;
 import com.kingofthehill.repository.GetLatestGrafitiRepository;
+import com.kingofthehill.repository.QueueSizeRepository;
 
 @Configuration
 @EnableWebMvc
 public class ApplicationConfiguration {
 
-    private final GetLatestGrafitiRepository getLatestGrafitiRepository;
+    @Autowired
+    private GetLatestGrafitiRepository getLatestGrafitiRepository;
 
     @Autowired
-    public ApplicationConfiguration(GetLatestGrafitiRepository getLatestGrafitiRepository) {
-        this.getLatestGrafitiRepository = getLatestGrafitiRepository;
-    }
-
-    protected ApplicationConfiguration() {
-        this.getLatestGrafitiRepository = null;
-    }
+    private QueueSizeRepository queueSizeRepository;
 
     @Bean
     public SessionFactory sessionFactory(org.hibernate.cfg.Configuration configuration) {
@@ -61,13 +57,12 @@ public class ApplicationConfiguration {
     @Bean
     public LoadingCache<String, Grafiti> configureLatestGrafitiCache() {
         return CacheBuilder.newBuilder().maximumSize(10).expireAfterWrite(5, TimeUnit.SECONDS)
-                .build(new CacheLoader<String, Grafiti>() {
+                .build(new LatestGrafitiCacheLoader(getLatestGrafitiRepository));
+    }
 
-                    @Override
-                    public Grafiti load(String queue) throws Exception {
-                        return getLatestGrafitiRepository.getLatestGrafiti(queue, GrafitiStatus.CURRENT.getStatus());
-                    }
-
-                });
+    @Bean
+    public LoadingCache<String, Long> configureQueueSizeCache() {
+        return CacheBuilder.newBuilder().maximumSize(10).expireAfterWrite(5, TimeUnit.SECONDS)
+                .build(new QueueLengthCacheLoader(queueSizeRepository));
     }
 }

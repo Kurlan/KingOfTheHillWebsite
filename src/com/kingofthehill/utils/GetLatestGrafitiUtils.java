@@ -3,21 +3,20 @@ package com.kingofthehill.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.cache.LoadingCache;
 import com.kingofthehill.model.Grafiti;
-import com.kingofthehill.model.GrafitiStatus;
-import com.kingofthehill.repository.GetLatestGrafitiRepository;
 
 @Service
 public class GetLatestGrafitiUtils {
 
-    private final GetLatestGrafitiRepository getLatestGrafitiRepository;
+    private final LoadingCache<String, Grafiti> getLatestGrafitiCache;
 
     @Autowired
-    public GetLatestGrafitiUtils(GetLatestGrafitiRepository getLatestGrafitiRepository) {
-        this.getLatestGrafitiRepository = getLatestGrafitiRepository;
+    public GetLatestGrafitiUtils(LoadingCache<String, Grafiti> getLatestGrafitiCache) {
+        this.getLatestGrafitiCache = getLatestGrafitiCache;
     }
 
     public Grafiti getLatestGrafiti(String queue) {
-        return getLatestGrafitiRepository.getLatestGrafiti(queue, GrafitiStatus.CURRENT.getStatus());
+        return getLatestGrafitiCache.getUnchecked(queue);
     }
 }
