@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kingofthehill.model.Grafiti;
+import com.kingofthehill.model.GrafitiStatus;
 import com.kingofthehill.repository.GetLatestGrafitiRepository;
 
 @Service
@@ -17,6 +18,6 @@ public class GetLatestGrafitiUtils {
     }
 
     public Grafiti getLatestGrafiti() {
-        return getLatestGrafitiRepository.getLatestGrafiti("CURRENT");
+        return getLatestGrafitiRepository.getLatestGrafiti(GrafitiStatus.CURRENT.getStatus());
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kingofthehill.model.Grafiti;
+import com.kingofthehill.model.GrafitiStatus;
 
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -29,8 +30,9 @@ public class ResetQueueRepository {
             transaction = session.beginTransaction();
             String hqlUpdate = "update " + Grafiti.class.getName()
                     + " g set g.status = :toStatus where g.status = :fromStatus";
-            int updatedEntities = session.createQuery(hqlUpdate).setString("fromStatus", "COMPLETED")
-                    .setString("toStatus", "CREATED").executeUpdate();
+            int updatedEntities = session.createQuery(hqlUpdate)
+                    .setString("fromStatus", GrafitiStatus.COMPLETED.getStatus())
+                    .setString("toStatus", GrafitiStatus.CREATED.getStatus()).executeUpdate();
             transaction.commit();
             log.info("Updated rows: " + updatedEntities);
         } catch (Exception e) {

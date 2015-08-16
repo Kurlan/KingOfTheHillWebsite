@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kingofthehill.model.Grafiti;
+import com.kingofthehill.model.GrafitiStatus;
 import com.kingofthehill.repository.AdvanceQueueRepository;
 
 import lombok.extern.apachecommons.CommonsLog;
@@ -37,7 +38,7 @@ public class AdvanceQueueUtils {
         DateTime nowUTC = new DateTime(DateTimeZone.UTC);
         if (latest.getCompleted().isBefore(nowUTC)) {
             log.info("Current grafiti needs to be updated");
-            advanceQueueRepository.setGrafitiToStatus(latest.getGrafitiId(), "COMPLETED");
+            advanceQueueRepository.setGrafitiToStatus(latest.getGrafitiId(), GrafitiStatus.COMPLETED.getStatus());
             setCurrentImageUtils.setCurrentImage();
         }
 

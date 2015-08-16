@@ -11,6 +11,7 @@ import com.kingofthehill.model.Grafiti;
 import com.kingofthehill.model.QueueLengths;
 import com.kingofthehill.utils.GetLatestGrafitiUtils;
 import com.kingofthehill.utils.QueueSizeUtils;
+import com.kingofthehill.model.GrafitiStatus;
 
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -40,8 +41,10 @@ public class LatestGrafitiController {
         modelAndView.addObject("grafiti", grafiti);
         modelAndView.addObject("cdnURL", CDN_URL);
         log.info("Latest grafitiId: " + grafiti.getGrafitiId());
-        modelAndView.addObject("freeQueueSize", queueSizeUtils.getQueueSizeWithStatus("FREE", "CREATED"));
-        modelAndView.addObject("paidQueueSize", queueSizeUtils.getQueueSizeWithStatus("PAID", "CREATED"));
+        modelAndView.addObject("freeQueueSize",
+                queueSizeUtils.getQueueSizeWithStatus("FREE", GrafitiStatus.CREATED.getStatus()));
+        modelAndView.addObject("paidQueueSize",
+                queueSizeUtils.getQueueSizeWithStatus("PAID", GrafitiStatus.CREATED.getStatus()));
         modelAndView.setViewName("latestGrafiti");
         return modelAndView;
     }
@@ -55,8 +58,8 @@ public class LatestGrafitiController {
     @RequestMapping(value = "ajax/queueLengths", method = RequestMethod.GET)
     @ResponseBody
     public QueueLengths getQueueLengthsAJAX() {
-        return new QueueLengths(queueSizeUtils.getQueueSizeWithStatus("FREE", "CREATED"),
-                queueSizeUtils.getQueueSizeWithStatus("PAID", "CREATED"));
+        return new QueueLengths(queueSizeUtils.getQueueSizeWithStatus("FREE", GrafitiStatus.CREATED.getStatus()),
+                queueSizeUtils.getQueueSizeWithStatus("PAID", GrafitiStatus.CREATED.getStatus()));
     }
 
 }
