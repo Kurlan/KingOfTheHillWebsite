@@ -34,7 +34,7 @@ public class LatestGrafitiController {
     public ModelAndView latestGrafiti() {
 
         ModelAndView modelAndView = new ModelAndView();
-        Grafiti grafiti = getLatestGrafitiUtils.getLatestGrafiti();
+        Grafiti grafiti = getLatestGrafitiUtils.getLatestGrafiti("FREE");
         if (grafiti == null) {
             grafiti = Grafiti.EMPTY;
         }
@@ -52,7 +52,7 @@ public class LatestGrafitiController {
     @RequestMapping(value = "ajax/grafiti/latest", method = RequestMethod.GET)
     @ResponseBody
     public Grafiti getLatestGrafitiAJAX() {
-        return getLatestGrafitiUtils.getLatestGrafiti();
+        return getLatestGrafitiUtils.getLatestGrafiti("FREE");
     }
 
     @RequestMapping(value = "ajax/queueLengths", method = RequestMethod.GET)

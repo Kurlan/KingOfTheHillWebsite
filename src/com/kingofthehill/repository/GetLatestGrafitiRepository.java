@@ -19,13 +19,15 @@ public class GetLatestGrafitiRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public Grafiti getLatestGrafiti(String status) {
+    public Grafiti getLatestGrafiti(String queue, String status) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         Grafiti grafiti = null;
         try {
             transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Grafiti.class).add(Restrictions.eq("status", status))
+            Criteria criteria = session.createCriteria(Grafiti.class)
+                    .add(Restrictions.eq("status", status))
+                    .add(Restrictions.eq("queue", queue))
                     .setMaxResults(1);
             grafiti = (Grafiti) criteria.uniqueResult();
             session.getTransaction().commit();

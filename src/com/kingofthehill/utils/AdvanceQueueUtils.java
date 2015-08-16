@@ -28,7 +28,7 @@ public class AdvanceQueueUtils {
     }
 
     public void advanceQueues() {
-        Grafiti latest = getLatestGrafitiUtils.getLatestGrafiti();
+        Grafiti latest = getLatestGrafitiUtils.getLatestGrafiti("FREE");
 
         if (latest == null) {
             setCurrentImageUtils.setCurrentImage();

@@ -17,7 +17,7 @@ public class GetLatestGrafitiUtils {
         this.getLatestGrafitiRepository = getLatestGrafitiRepository;
     }
 
-    public Grafiti getLatestGrafiti() {
-        return getLatestGrafitiRepository.getLatestGrafiti(GrafitiStatus.CURRENT.getStatus());
+    public Grafiti getLatestGrafiti(String queue) {
+        return getLatestGrafitiRepository.getLatestGrafiti(queue, GrafitiStatus.CURRENT.getStatus());
     }
 }
