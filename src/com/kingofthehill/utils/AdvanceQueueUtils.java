@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kingofthehill.model.Grafiti;
 import com.kingofthehill.model.GrafitiStatus;
 import com.kingofthehill.repository.AdvanceQueueRepository;
+import com.kingofthehill.repository.GetLatestGrafitiRepository;
 
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -17,18 +18,18 @@ public class AdvanceQueueUtils {
 
     private final AdvanceQueueRepository advanceQueueRepository;
     private final SetCurrentImageUtils setCurrentImageUtils;
-    private final GetLatestGrafitiUtils getLatestGrafitiUtils;
+    private final GetLatestGrafitiRepository getLatestGrafitiRepository;
 
     @Autowired
     public AdvanceQueueUtils(AdvanceQueueRepository advanceQueueRepository, SetCurrentImageUtils setCurrentImageUtils,
-            GetLatestGrafitiUtils getLatestGrafitiUtils) {
+            GetLatestGrafitiRepository getLatestGrafitiRepository) {
         this.advanceQueueRepository = advanceQueueRepository;
         this.setCurrentImageUtils = setCurrentImageUtils;
-        this.getLatestGrafitiUtils = getLatestGrafitiUtils;
+        this.getLatestGrafitiRepository = getLatestGrafitiRepository;
     }
 
     public void advanceQueues() {
-        Grafiti latest = getLatestGrafitiUtils.getLatestGrafiti("FREE");
+        Grafiti latest = getLatestGrafitiRepository.getLatestGrafiti("FREE", GrafitiStatus.CURRENT.getStatus());
 
         if (latest == null) {
             setCurrentImageUtils.setCurrentImage();

@@ -51,30 +51,9 @@
     </form>
     
     
-    <c:url value="/kingofthehill/ajax/grafiti/latest" var="latestAjaxEndpointURL" />
-    <c:url value="/kingofthehill/ajax/queueLengths" var="queueLengthAjaxEndpointURL" />
+    <c:url value="/kingofthehill/queue/FREE" var="freeQueueEndpointURL" />
+    <c:url value="/kingofthehill/queue/PAID" var="paidQueueEndpointURL" />
     <script>
-        function readFromImageStream() {
-
-             $.ajax({
-                url: '<c:out value="${latestAjaxEndpointURL}"/>',
-                dataType: "json",
-                success: function(response) {
-                    processGrafiti(response);
-                  },
-            });
-
-        }
-        
-        function updateQueueLengths() {
-            $.ajax({
-                url: '<c:out value="${queueLengthAjaxEndpointURL}"/>',
-                dataType: "json",
-                success: function(response) {
-                    processQueueLengths(response);
-                  },
-            });
-        }
         
         function processGrafiti(grafiti) {
             var cdnUrl = 'http://<c:out value="${cdnURL}" />/' + grafiti.s3Key;
@@ -85,14 +64,23 @@
              $(document).prop('title', grafiti.title);
         }
         
-        function processQueueLengths(queueLengths) {
-        	$("#freeQueueSize").html(queueLengths.freeQueueLength);
-        	$("#paidQueueSize").html(queueLengths.paidQueueLength);
+        function updateQueues() {
+            $.ajax({
+                url: '<c:out value="${freeQueueEndpointURL}"/>',
+                dataType: "json",
+                success: function(response) {
+                    processQueue(response);
+                  },
+            });
+        }
+        
+        function processQueue(queue) {
+        	processGrafiti(queue.lastGrafiti);
+        	$("#freeQueueSize").html(queue.length);
         }
         
         setInterval(function () {
-        	readFromImageStream();
-        	updateQueueLengths();
+        	updateQueues();
         }, 1000);
         
     </script>

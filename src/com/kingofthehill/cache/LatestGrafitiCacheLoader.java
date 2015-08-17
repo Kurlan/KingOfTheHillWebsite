@@ -17,5 +17,4 @@ public class LatestGrafitiCacheLoader extends CacheLoader<String, Grafiti> {
     public Grafiti load(String queue) throws Exception {
         return getLatestGrafitiRepository.getLatestGrafiti(queue, GrafitiStatus.CURRENT.getStatus());
     }
-
 }

@@ -4,14 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kingofthehill.model.Grafiti;
-import com.kingofthehill.model.QueueLengths;
-import com.kingofthehill.utils.GetLatestGrafitiUtils;
-import com.kingofthehill.utils.QueueSizeUtils;
-
+import com.kingofthehill.model.ImageQueue;
+import com.kingofthehill.utils.ImageQueueUtils;
 import lombok.extern.apachecommons.CommonsLog;
 
 @Controller
@@ -20,43 +17,29 @@ import lombok.extern.apachecommons.CommonsLog;
 public class LatestGrafitiController {
 
     private static final String CDN_URL = "dk01572ibg6u2.cloudfront.net";
-    private final GetLatestGrafitiUtils getLatestGrafitiUtils;
-    private final QueueSizeUtils queueSizeUtils;
+    private final ImageQueueUtils imageQueueUtils;
 
     @Autowired
-    public LatestGrafitiController(GetLatestGrafitiUtils getLatestGrafitiUtils, QueueSizeUtils queueSizeUtils) {
-        this.getLatestGrafitiUtils = getLatestGrafitiUtils;
-        this.queueSizeUtils = queueSizeUtils;
+    public LatestGrafitiController(ImageQueueUtils imageQueueUtils) {
+        this.imageQueueUtils = imageQueueUtils;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView latestGrafiti() {
 
         ModelAndView modelAndView = new ModelAndView();
-        Grafiti grafiti = getLatestGrafitiUtils.getLatestGrafiti("FREE");
+        ImageQueue freeQueue = imageQueueUtils.getQueue("FREE");
+        ImageQueue paidQueue = imageQueueUtils.getQueue("PAID");
+        Grafiti grafiti = freeQueue.getLastGrafiti();
         if (grafiti == null) {
             grafiti = Grafiti.EMPTY;
         }
         modelAndView.addObject("grafiti", grafiti);
         modelAndView.addObject("cdnURL", CDN_URL);
         log.info("Latest grafitiId: " + grafiti.getGrafitiId());
-        modelAndView.addObject("freeQueueSize", queueSizeUtils.getQueueLength("FREE"));
-        modelAndView.addObject("paidQueueSize", queueSizeUtils.getQueueLength("PAID"));
+        modelAndView.addObject("freeQueueSize", freeQueue.getLength());
+        modelAndView.addObject("paidQueueSize", paidQueue.getLength());
         modelAndView.setViewName("latestGrafiti");
         return modelAndView;
     }
-
-    @RequestMapping(value = "ajax/grafiti/latest", method = RequestMethod.GET)
-    @ResponseBody
-    public Grafiti getLatestGrafitiAJAX() {
-        return getLatestGrafitiUtils.getLatestGrafiti("FREE");
-    }
-
-    @RequestMapping(value = "ajax/queueLengths", method = RequestMethod.GET)
-    @ResponseBody
-    public QueueLengths getQueueLengthsAJAX() {
-        return new QueueLengths(queueSizeUtils.getQueueLength("FREE"),
-                queueSizeUtils.getQueueLength("PAID"));
-    }
-
 }

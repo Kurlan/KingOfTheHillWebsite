@@ -11,9 +11,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
-import com.kingofthehill.cache.LatestGrafitiCacheLoader;
-import com.kingofthehill.cache.QueueLengthCacheLoader;
-import com.kingofthehill.model.Grafiti;
+import com.kingofthehill.cache.ImageQueueCacheLoader;
+import com.kingofthehill.model.ImageQueue;
 import com.kingofthehill.repository.GetLatestGrafitiRepository;
 import com.kingofthehill.repository.QueueSizeRepository;
 
@@ -55,14 +54,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public LoadingCache<String, Grafiti> configureLatestGrafitiCache() {
+    public LoadingCache<String, ImageQueue> configureImageQueueCache() {
         return CacheBuilder.newBuilder().maximumSize(10).expireAfterWrite(5, TimeUnit.SECONDS)
-                .build(new LatestGrafitiCacheLoader(getLatestGrafitiRepository));
-    }
-
-    @Bean
-    public LoadingCache<String, Long> configureQueueSizeCache() {
-        return CacheBuilder.newBuilder().maximumSize(10).expireAfterWrite(5, TimeUnit.SECONDS)
-                .build(new QueueLengthCacheLoader(queueSizeRepository));
+                .build(new ImageQueueCacheLoader(getLatestGrafitiRepository, queueSizeRepository));
     }
 }
