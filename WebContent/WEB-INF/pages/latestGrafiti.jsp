@@ -7,9 +7,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><c:out value="${grafiti.title}" /></title>
+<link rel="stylesheet" type="text/css" href="<c:url value="/styles/styles.css" />">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
 </head>
 <body>
+    <div id="grafitiContainerDiv">
     <a href="<c:out value="${grafiti.urlLink}" />" id="mainImageLink"> 
         <img
             src="http://<c:out value="${cdnURL}" />/<c:out value="${grafiti.s3Key}" />"
@@ -18,13 +20,12 @@
             id="mainImage" 
         >
     </a>
-    <br />
-    <br />
+    </div>
+
     <h4>Free queue size: <span id="freeQueueSize"><c:out value="${freeQueueSize}" /></span></h4>
     <h4>Paid queue size: <span id="paidQueueSize"><c:out value="${paidQueueSize}" /></span></h4>
     <hr />
-    <br />
-    <br />
+
     <h2>Replace this image</h2>
         <c:url value="/kingofthehill/upload/upload" var="uploadURL" />
         <form method="POST" enctype="multipart/form-data"

@@ -1,0 +1,11 @@
+@CHARSET "ISO-8859-1";
+
+#grafitiContainerDiv {
+    width: 800px;
+    height: 600px;
+}
+
+#grafitiContainerDiv img{    
+    max-width: 100%;
+    height: 100%;
+}
