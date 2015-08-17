@@ -9,6 +9,14 @@
 <title><c:out value="${grafiti.title}" /></title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/styles/styles.css" />">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div id="grafitiContainerDiv">
@@ -22,16 +30,17 @@
     </a>
     </div>
 
-    <h4>Free queue size: <span id="freeQueueSize"><c:out value="${freeQueueSize}" /></span></h4>
-    <h4>Paid queue size: <span id="paidQueueSize"><c:out value="${paidQueueSize}" /></span></h4>
+    <h5>
+        Free queue size: <span id="freeQueueSize"><c:out value="${freeQueueSize}" /></span>
+        Paid queue size: <span id="paidQueueSize"><c:out value="${paidQueueSize}" /></span>
+    </h5>
     <hr />
 
-    <h2>Replace this image</h2>
+    <h3>Replace this image</h3>
         <c:url value="/kingofthehill/upload/upload" var="uploadURL" />
         <form method="POST" enctype="multipart/form-data"
             action="<c:out value="${uploadURL}"/>">
-        
-        <br />
+
         <label for="title">Title: </label>
         <input type="text" name="title" id="title" size="100" placeholder="Title of page"/><br />
          
