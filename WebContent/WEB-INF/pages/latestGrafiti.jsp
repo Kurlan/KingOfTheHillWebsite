@@ -40,7 +40,7 @@
         Paid queue size: <span id="paidQueueSize"><c:out value="${paidQueueSize}" /></span>
     </h5>
     <hr />
-    <h3>Replace this image</h3>
+    <h4>Add an image</h4>
     
      <c:url value="/kingofthehill/upload/upload" var="uploadURL" />
     
@@ -80,7 +80,13 @@
     <script>
         
         function processGrafiti(grafiti) {
-            var cdnUrl = 'http://<c:out value="${cdnURL}" />/' + grafiti.s3Key;
+        	var cdnUrl = 'http://<c:out value="${cdnURL}" />/' + grafiti.s3Key;
+            
+        	console.log($("#mainImage").attr("src"));
+            if ($("#mainImage").attr("src") == cdnUrl) {
+            	return;
+            }
+            
              $("#mainImage").attr("src", cdnUrl);
              $("#mainImage").attr("alt", grafiti.altText);
              $("#mainImage").attr("title", grafiti.altText);
