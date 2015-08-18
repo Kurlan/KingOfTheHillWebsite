@@ -5,13 +5,13 @@
     border: 2px solid #AAAAAA;
     padding: 10px; 
 	
-    width: 800px;
-    height: 600px;
+    width: 640px;
+    height: 480px;
 }
 
 .grafitiHistory img{
-	width: 240px;
-	height: 205px;
+	width: 213px;
+	height: 160px;
 }
 
 #grafitiContainerDiv img{    

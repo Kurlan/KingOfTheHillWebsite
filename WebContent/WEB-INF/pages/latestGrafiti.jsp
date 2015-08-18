@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -24,7 +25,7 @@
 <body>
     <div class="container-fluid">
         <div id="grafitiContainerDiv">
-        <a href="<c:out value="${freeQueue.lastGrafiti.urlLink}" />" id="mainImageLink"> 
+        <a href="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastGrafiti.s3Key}" />" id="mainImageLink"> 
             <img
                 src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastGrafiti.s3Key}" />"
                 alt="<c:out value="${freeQueue.lastGrafiti.altText}" />" 
@@ -36,77 +37,95 @@
     </div>
 
     <div class="container-fluid">
+    
+    <c:forEach var="oldGrafiti" items="${freeQueue.lastSeveralGrafiti}" varStatus="loop">
         <span class="grafitiHistory">
-            <a href="<c:out value="${freeQueue.lastSeveralGrafiti.get(0).urlLink}" />"> 
+            <a href="http://<c:out value="${cdnURL}" />/<c:out value="${oldGrafiti.s3Key}" />"> 
                 <img
-                    src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastSeveralGrafiti.get(0).s3Key}" />"
-                    alt="<c:out value="${freeQueue.lastSeveralGrafiti.get(0).altText}" />" 
-                    title="<c:out value="${freeQueue.lastSeveralGrafiti.get(0).altText}"/>"
-                     id="grafitiHistory1"
+                    src="http://<c:out value="${cdnURL}" />/<c:out value="${oldGrafiti.s3Key}" />"
+                    alt="<c:out value="${oldGrafiti.altText}" />" 
+                    title="<c:out value="${oldGrafiti.altText}"/>"
+                     id="grafitiHistory<c:out value="${loop.index + 1}" />"
                 >
             </a>
         </span>
+    </c:forEach>
+    <c:set var="numberSet" scope="page" value="${fn:length(freeQueue.lastSeveralGrafiti) + 1}"/>
+    
+    <c:forEach begin="${ numberSet }" end="3" varStatus="loop">
         <span class="grafitiHistory">
-            <a href="<c:out value="${freeQueue.lastSeveralGrafiti.get(1).urlLink}" />"> 
                 <img
-                    src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastSeveralGrafiti.get(1).s3Key}" />"
-                    alt="<c:out value="${freeQueue.lastSeveralGrafiti.get(1).altText}" />" 
-                    title="<c:out value="${freeQueue.lastSeveralGrafiti.get(1).altText}"/>"
-                    id="grafitiHistory2"
+                    src=""
+                     id="grafitiHistory<c:out value="${loop.index}" />"
                 >
-            </a>
         </span>
-        <span class="grafitiHistory">
-            <a href="<c:out value="${freeQueue.lastSeveralGrafiti.get(2).urlLink}" />"> 
-                <img
-                    src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastSeveralGrafiti.get(2).s3Key}" />"
-                    alt="<c:out value="${freeQueue.lastSeveralGrafiti.get(2).altText}" />" 
-                    title="<c:out value="${freeQueue.lastSeveralGrafiti.get(2).altText}"/>"
-                    id="grafitiHistory3"
-                >
-            </a>
-        </span>
+    </c:forEach>
+    
     </div>
 
-    <h5>
-        Free queue size: <span id="freeQueueSize"><c:out value="${freeQueue.length}" /></span>
-        Paid queue size: <span id="paidQueueSize"><c:out value="${paidQueueSize}" /></span>
-    </h5>
+
     <hr />
-    <h4>Add an image</h4>
-    
      <c:url value="/kingofthehill/upload/upload" var="uploadURL" />
     
-    <div class="container-fluid">    
-        <form method="POST" enctype="multipart/form-data"
-            action="<c:out value="${uploadURL}"/>" class="form-inline">
-                    <div class="form-group">  
-                        <label for="title">Title: </label>            
-                        <input type="text" class="form-control" name="title" id="title" placeholder="Title of page"/><br />
-                     </div>
-                     <div class="form-group">
-                        <label for="altText">Alt Text: </label>                  
-                        <input type="text" class="form-control" name="altText" id="altText" placeholder="Alt Text"/><br /> 
-                     </div>
-          
-                    <div class="form-group">                     
-                        <label for="link" >Link: </label>
-                       <input type="text" class="form-control" name="link" id="link" value="http://" placeholder="Link"/><br />
-                    </div>
-                    <div class="form-group">                      
-                        <label for="email" >Email (optional): </label>
-                        <input type="text" class="form-control" name="email" id="email" placeholder="Email"/><br /> <br />
-                    </div>
-                    <div class="form-group">                      
-                        <label for="file" >Upload image: </label>
-                        <input type="file" class="form-control" name="file" id="file" class="btn btn-default"> <br /> <br />
-                    </div>
-                    <div class="form-group">                      
-                    <input type="submit"
-                        value="Upload" class="btn btn-default">
-                    </div>
-         </form>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Add an image!
+    </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            <!--  Modal Content Start -->
+        	<div class="container-fluid">    
+                <form method="POST" enctype="multipart/form-data"
+                    action="<c:out value="${uploadURL}"/>" class="form-inline">
+                            <div class="form-group">  
+                                <label for="title">Title: </label>            
+                                <input type="text" class="form-control" name="title" id="title" placeholder="Title of page"/><br />
+                             </div>
+                             <div class="form-group">
+                                <label for="altText">Alt Text: </label>                  
+                                <input type="text" class="form-control" name="altText" id="altText" placeholder="Alt Text"/><br /> 
+                             </div>
+                            <!--                  
+                            <div class="form-group">                     
+                                <label for="link" >Link: </label>
+                               <input type="text" class="form-control" name="link" id="link" value="http://" placeholder="Link"/><br />
+                            </div>
+                            -->
+                            <div class="form-group">                      
+                                <label for="email" >Email (optional): </label>
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Email"/><br /> <br />
+                            </div>
+                            <div class="form-group">                      
+                                <label for="file" >Upload image: </label>
+                                <input type="file" class="form-control" name="file" id="file" class="btn btn-default"> <br /> <br />
+                            </div>
+                            <div class="form-group">                      
+                            <input type="submit"
+                                value="Upload" class="btn btn-default">
+                            </div>
+                 </form>
+            </div>
+            <!--  Modal Content End -->            
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
+    
+    <h5>
+        Free queue size: <span id="freeQueueSize"><c:out value="${freeQueue.length}" /></span>
+    </h5>
     
     <c:url value="/kingofthehill/queue/FREE" var="freeQueueEndpointURL" />
     <c:url value="/kingofthehill/queue/PAID" var="paidQueueEndpointURL" />
