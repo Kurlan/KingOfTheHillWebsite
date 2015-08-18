@@ -1,6 +1,9 @@
 package com.kingofthehill.cache;
 
+import java.util.List;
+
 import com.google.common.cache.CacheLoader;
+import com.kingofthehill.model.Grafiti;
 import com.kingofthehill.model.GrafitiStatus;
 import com.kingofthehill.model.ImageQueue;
 import com.kingofthehill.repository.GetLatestGrafitiRepository;
@@ -19,9 +22,18 @@ public class ImageQueueCacheLoader extends CacheLoader<String, ImageQueue> {
 
     @Override
     public ImageQueue load(String queueName) throws Exception {
+        Grafiti grafiti = getLatestGrafitiRepository.getLatestGrafiti(queueName, GrafitiStatus.CURRENT.getStatus());
+        if (grafiti == null) {
+            grafiti = Grafiti.EMPTY;
+        }
+
+        List<Grafiti> lastThree = getLatestGrafitiRepository.getLatestGrafiti(queueName,
+                GrafitiStatus.COMPLETED.getStatus(), 3);
+
+
         return new ImageQueue(queueName,
-                queueSizeRepository.getQueueSizeWithStatus(queueName, GrafitiStatus.CREATED.getStatus()),
-                getLatestGrafitiRepository.getLatestGrafiti(queueName, GrafitiStatus.CURRENT.getStatus()));
+                queueSizeRepository.getQueueSizeWithStatus(queueName, GrafitiStatus.CREATED.getStatus()), grafiti,
+                lastThree);
     }
 
 }

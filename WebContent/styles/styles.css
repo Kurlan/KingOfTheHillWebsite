@@ -1,11 +1,28 @@
 @CHARSET "ISO-8859-1";
 
 #grafitiContainerDiv {
+	border-radius: 25px;
+    border: 2px solid #AAAAAA;
+    padding: 10px; 
+	
     width: 800px;
     height: 600px;
 }
 
+.grafitiHistory img{
+	width: 240px;
+	height: 205px;
+}
+
 #grafitiContainerDiv img{    
+    max-width: 100%;
+    height: 100%;
+}
+
+.grafitiHistory img{    
+    border-radius: 15px;
+    border: 2px solid #AAAAAA;
+    padding: 10px;
     max-width: 100%;
     height: 100%;
 }

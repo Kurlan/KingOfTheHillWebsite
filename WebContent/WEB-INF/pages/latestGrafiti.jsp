@@ -19,24 +19,57 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
 </head>
 <body>
     <div class="container-fluid">
         <div id="grafitiContainerDiv">
-        <a href="<c:out value="${grafiti.urlLink}" />" id="mainImageLink"> 
+        <a href="<c:out value="${freeQueue.lastGrafiti.urlLink}" />" id="mainImageLink"> 
             <img
-                src="http://<c:out value="${cdnURL}" />/<c:out value="${grafiti.s3Key}" />"
-                alt="<c:out value="${grafiti.altText}" />" 
-                title="<c:out value="${grafiti.altText}"/>"
+                src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastGrafiti.s3Key}" />"
+                alt="<c:out value="${freeQueue.lastGrafiti.altText}" />" 
+                title="<c:out value="${freeQueue.lastGrafiti.altText}"/>"
                 id="mainImage" 
             >
         </a>
         </div>
     </div>
 
+    <div class="container-fluid">
+        <span class="grafitiHistory">
+            <a href="<c:out value="${freeQueue.lastSeveralGrafiti.get(0).urlLink}" />"> 
+                <img
+                    src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastSeveralGrafiti.get(0).s3Key}" />"
+                    alt="<c:out value="${freeQueue.lastSeveralGrafiti.get(0).altText}" />" 
+                    title="<c:out value="${freeQueue.lastSeveralGrafiti.get(0).altText}"/>"
+                     id="grafitiHistory1"
+                >
+            </a>
+        </span>
+        <span class="grafitiHistory">
+            <a href="<c:out value="${freeQueue.lastSeveralGrafiti.get(1).urlLink}" />"> 
+                <img
+                    src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastSeveralGrafiti.get(1).s3Key}" />"
+                    alt="<c:out value="${freeQueue.lastSeveralGrafiti.get(1).altText}" />" 
+                    title="<c:out value="${freeQueue.lastSeveralGrafiti.get(1).altText}"/>"
+                    id="grafitiHistory2"
+                >
+            </a>
+        </span>
+        <span class="grafitiHistory">
+            <a href="<c:out value="${freeQueue.lastSeveralGrafiti.get(2).urlLink}" />"> 
+                <img
+                    src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastSeveralGrafiti.get(2).s3Key}" />"
+                    alt="<c:out value="${freeQueue.lastSeveralGrafiti.get(2).altText}" />" 
+                    title="<c:out value="${freeQueue.lastSeveralGrafiti.get(2).altText}"/>"
+                    id="grafitiHistory3"
+                >
+            </a>
+        </span>
+    </div>
+
     <h5>
-        Free queue size: <span id="freeQueueSize"><c:out value="${freeQueueSize}" /></span>
+        Free queue size: <span id="freeQueueSize"><c:out value="${freeQueue.length}" /></span>
         Paid queue size: <span id="paidQueueSize"><c:out value="${paidQueueSize}" /></span>
     </h5>
     <hr />
@@ -85,6 +118,22 @@
             if ($("#mainImage").attr("src") == cdnUrl) {
             	return;
             }
+            
+            $("#grafitiHistory3").attr("src",  $("#grafitiHistory2").attr("src"));
+            $("#grafitiHistory3").attr("alt", $("#grafitiHistory2").attr("alt"));
+            $("#grafitiHistory3").attr("title", $("#grafitiHistory2").attr("title"));
+            $("#grafitiHistory3").attr("href", $("#grafitiHistory2").attr("href"));
+            
+            $("#grafitiHistory2").attr("src",  $("#grafitiHistory1").attr("src"));
+            $("#grafitiHistory2").attr("alt", $("#grafitiHistory1").attr("alt"));
+            $("#grafitiHistory2").attr("title", $("#grafitiHistory1").attr("title"));
+            $("#grafitiHistory2").attr("href", $("#grafitiHistory1").attr("href"));
+            
+            $("#grafitiHistory1").attr("src",  $("#mainImage").attr("src"));
+            $("#grafitiHistory1").attr("alt", $("#mainImage").attr("alt"));
+            $("#grafitiHistory1").attr("title", $("#mainImage").attr("title"));
+            $("#grafitiHistory1").attr("href", $("#mainImage").attr("href"));
+            
             
              $("#mainImage").attr("src", cdnUrl);
              $("#mainImage").attr("alt", grafiti.altText);

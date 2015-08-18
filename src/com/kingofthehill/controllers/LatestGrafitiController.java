@@ -34,11 +34,10 @@ public class LatestGrafitiController {
         if (grafiti == null) {
             grafiti = Grafiti.EMPTY;
         }
-        modelAndView.addObject("grafiti", grafiti);
         modelAndView.addObject("cdnURL", CDN_URL);
         log.info("Latest grafitiId: " + grafiti.getGrafitiId());
-        modelAndView.addObject("freeQueueSize", freeQueue.getLength());
         modelAndView.addObject("paidQueueSize", paidQueue.getLength());
+        modelAndView.addObject("freeQueue", freeQueue);
         modelAndView.setViewName("latestGrafiti");
         return modelAndView;
     }
