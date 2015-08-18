@@ -29,7 +29,7 @@ public class FileUploadController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ModelAndView handleFileUpload(HttpServletRequest request, @RequestParam("title") String title,
-            @RequestParam("altText") String altText, @RequestParam("link") String link,
+            @RequestParam("altText") String altText, @RequestParam(value = "link", required = false) String link,
             @RequestParam("email") String email, @RequestParam("file") MultipartFile file) {
         ModelAndView modelAndView = new ModelAndView();
         if (file.isEmpty()) {
