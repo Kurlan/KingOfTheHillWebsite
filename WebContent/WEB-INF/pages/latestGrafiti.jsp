@@ -82,7 +82,6 @@
         function processGrafiti(grafiti) {
         	var cdnUrl = 'http://<c:out value="${cdnURL}" />/' + grafiti.s3Key;
             
-        	console.log($("#mainImage").attr("src"));
             if ($("#mainImage").attr("src") == cdnUrl) {
             	return;
             }
