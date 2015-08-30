@@ -9,7 +9,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title><c:out value="${grafiti.title}" /></title>
+    <title>egrafiti</title>
+    <!-- <title><c:out value="${grafiti.title}" /></title> -->
     
     <link rel="stylesheet" type="text/css" href="<c:url value="/styles/styles.css" />">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
@@ -23,8 +24,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" defer></script>
 </head>
 <body>
-    <div class="container-fluid">
-        <div id="grafitiContainerDiv">
+    <div id="primaryContainerDiv">
+        <div id="mainImageDiv">
         <a href="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastGrafiti.s3Key}" />" id="mainImageLink"> 
             <img
                 src="http://<c:out value="${cdnURL}" />/<c:out value="${freeQueue.lastGrafiti.s3Key}" />"
@@ -35,8 +36,7 @@
         </a>
         </div>
     </div>
-
-    <div class="container-fluid">
+    <div id="historyContainerDiv">
     
     <c:forEach var="oldGrafiti" items="${freeQueue.lastSeveralGrafiti}" varStatus="loop">
         <span class="grafitiHistory">
@@ -50,9 +50,10 @@
             </a>
         </span>
     </c:forEach>
+    
     <c:set var="numberSet" scope="page" value="${fn:length(freeQueue.lastSeveralGrafiti) + 1}"/>
     
-    <c:forEach begin="${ numberSet }" end="3" varStatus="loop">
+    <c:forEach begin="${ numberSet }" end="4" varStatus="loop">
         <span class="grafitiHistory">
                 <img
                     src=""
@@ -137,6 +138,10 @@
             if ($("#mainImage").attr("src") == cdnUrl) {
             	return;
             }
+            $("#grafitiHistory4").attr("src",  $("#grafitiHistory3").attr("src"));
+            $("#grafitiHistory4").attr("alt", $("#grafitiHistory3").attr("alt"));
+            $("#grafitiHistory4").attr("title", $("#grafitiHistory3").attr("title"));
+            $("#grafitiHistory4").attr("href", $("#grafitiHistory3").attr("href"));
             
             $("#grafitiHistory3").attr("src",  $("#grafitiHistory2").attr("src"));
             $("#grafitiHistory3").attr("alt", $("#grafitiHistory2").attr("alt"));
@@ -158,7 +163,7 @@
              $("#mainImage").attr("alt", grafiti.altText);
              $("#mainImage").attr("title", grafiti.altText);
              $("#mainImageLink").attr("href", grafiti.urlLink);
-             $(document).prop('title', grafiti.title);
+             /* $(document).prop('title', grafiti.title); */
         }
         
         function updateQueues() {

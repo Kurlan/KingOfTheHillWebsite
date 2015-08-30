@@ -1,28 +1,45 @@
 @CHARSET "ISO-8859-1";
 
-#grafitiContainerDiv {
-	border-radius: 25px;
-    border: 2px solid #AAAAAA;
-    padding: 10px; 
-	
-    width: 640px;
-    height: 480px;
+
+#primaryContainerDiv {
+
+	width:100%;
+	height:600px;
+	background-color:#DDDDDD;
+	display:block;
 }
+
+
+#mainImageDiv{
+
+	height:100%;
+	width:100%;
+}
+
+#mainImageDiv {
+	text-align:center;
+}
+
+#mainImage{
+	height:100%;
+}
+
+
+#historyContainerDiv {
+	display:block;
+
+	width:100%;
+	height:200px;
+	background-color:red;
+}
+#historyContainerDiv:hover {
+
+	background-color:black;
+}
+
 
 .grafitiHistory img{
-	width: 213px;
-	height: 160px;
+	height:100%;
+	float:left;
 }
 
-#grafitiContainerDiv img{    
-    max-width: 100%;
-    height: 100%;
-}
-
-.grafitiHistory img{    
-    border-radius: 15px;
-    border: 2px solid #AAAAAA;
-    padding: 10px;
-    max-width: 100%;
-    height: 100%;
-}
